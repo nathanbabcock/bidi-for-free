@@ -1,6 +1,7 @@
 /** First implementation from Voigtländer 2009, section 2 */
 
 import { IntMap } from './IntMap.mjs'
+import { GetPut, PutGet, PutPut } from './laws.mjs'
 import { fromJust, tail, zip } from './stdlib.mjs'
 import { BFF } from './types.js'
 
@@ -36,4 +37,11 @@ export function main() {
   // > bff tail "abcd" "bCd"
   console.log(bff(tail)(['a', 'b', 'c', 'd'], ['b', 'C', 'd']))
   // "abCd"
+
+  // Test
+  const get = tail
+  const put = bff(get)
+  console.log('GetPut?', GetPut(get, put, ['a', 'b', 'c', 'd']))
+  console.log('PutGet?', PutGet(put, get, ['a', 'b', 'c', 'd'], ['b', 'C', 'd']))
+  console.log('PutPut?', PutPut(put, ['a', 'b', 'c', 'd'], ['b', 'C', 'd'], ['b', 'c', 'd']))
 }

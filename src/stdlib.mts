@@ -35,3 +35,12 @@ export const flip = <α extends ((a: any, b: any) => any)>(f: α) =>
 
 // tail :: NonEmpty a -> [a]
 export const tail = <α,>(as: α[]) => as.slice(1)
+
+/**
+ * Equality for primitives, strings, and arrays
+ * @todo Add support for objects
+ */
+export const eq = (a: any, b: any): boolean => {
+  if (a instanceof Array && b instanceof Array) return a.every((a, i) => eq(a, b[i]))
+  return true
+}

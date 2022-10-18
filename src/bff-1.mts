@@ -1,7 +1,7 @@
 /** First implementation from Voigtländer 2009, section 2 */
 
 import { IntMap } from './IntMap.mjs'
-import { fromJust, zip } from './stdlib.mjs'
+import { fromJust, tail, zip } from './stdlib.mjs'
 import { BFF } from './types.js'
 
 // bff get =
@@ -30,3 +30,10 @@ export const bff: BFF = get =>
 // assoc :: [Int] → [α] → IntMap α
 const assoc = <α,>(is: number[], bs: α[]): IntMap<α> =>
   is.reduce((prev, cur, idx) => ({ ...prev, [cur]: bs[idx] }), {})
+
+export function main() {
+  // Our current version of bff works quite nicely already. For example,
+  // > bff tail "abcd" "bCd"
+  console.log(bff(tail)(['a', 'b', 'c', 'd'], ['b', 'C', 'd']))
+  // "abCd"
+}

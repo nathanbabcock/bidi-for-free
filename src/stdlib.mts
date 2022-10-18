@@ -44,3 +44,5 @@ export const eq = (a: any, b: any): boolean => {
   if (a instanceof Array && b instanceof Array) return a.every((a, i) => eq(a, b[i]))
   return true
 }
+
+export const isStr = (a: any): a is string => a instanceof String || typeof a === 'string'

@@ -1,12 +1,13 @@
 /** First implementation from Voigtländer 2009, section 2 */
 
+import { bff_string } from './bff-string.mjs'
 import { IntMap } from './IntMap.mjs'
 import { GetPut, PutGet, PutPut } from './laws.mjs'
 import { fromJust, tail, zip } from './stdlib.mjs'
 import { BFF, GetFn, PutFn } from './types.js'
 
 // bff get =
-const bff_array: BFF<any[], any[]> = get =>
+export const bff_array: BFF<any[], any[]> = get =>
 
   // λs v →
   (s, v) => {
@@ -31,28 +32,6 @@ const bff_array: BFF<any[], any[]> = get =>
 // assoc :: [Int] → [α] → IntMap α
 const assoc = <α,>(is: number[], bs: α[]): IntMap<α> =>
   is.reduce((prev, cur, idx) => ({ ...prev, [cur]: bs[idx] }), {})
-
-// 4 "lens adapters" for conversion between get/put for string/array:
-
-export const getString = (get: GetFn<any[], any[]>): GetFn<string, string> =>
-  s => get(s.split('')).join('')
-
-export const putString = (put: PutFn<any[], any[]>): PutFn<string, string> =>
-  (s, v) => put(s.split(''), v.split('')).join('')
-
-export const getArray = (get: GetFn<string, string>): GetFn<any[], any[]> =>
-  s => get(s.join('')).split('')
-
-export const putArray = (put: PutFn<string, string>): PutFn<any[], any[]> =>
-  (s, v) => put(s.join(''), v.join('')).split('')
-
-export const bff_string: BFF<string, string> = get => {
-  const get_array: GetFn<any[], any[]> = getArray(get)
-  const put_array = bff_array(get_array)
-  const put_string: PutFn<string, string> = putString(put_array)
-  return put_string
-}
-
 
 export function main() {
   // Our current version of bff works quite nicely already. For example,
